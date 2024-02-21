@@ -12,15 +12,13 @@ header {
     height: 100px;
     background-color: rgb(139, 90, 49);
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding-left: 30px;
 }
 
 h1 {
     font-size: 48px;
     font-weight: bold;
-    text-align: center;
 }
 
 #box-login{
@@ -61,6 +59,7 @@ input{
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
+    font-size: 18px;
     border: none;
     border-radius: 5px;
     border-bottom: 2px solid rgb(139, 90, 49);
@@ -101,8 +100,8 @@ footer {
     height: 100px;
     background-color: rgb(139, 90, 49);
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    padding: 10px;
+    padding-right: 30px;
 }
 
