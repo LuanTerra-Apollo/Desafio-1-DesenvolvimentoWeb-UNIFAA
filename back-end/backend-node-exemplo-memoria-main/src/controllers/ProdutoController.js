@@ -58,7 +58,7 @@ module.exports = class ProdutoController {
         try {
             var id = req.params.id;
             let produtoAtualizado = serviceProduto.deletar(id);
-            return res.json(produtoAtualizado);
+            return res.json({mensagem:`Produto com id ${id} foi deletado com sucesso!`});
 
         } catch (error) {
             console.log(error);

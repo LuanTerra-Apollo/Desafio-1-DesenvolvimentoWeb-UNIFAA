@@ -76,12 +76,15 @@ td {
     padding: 10px;
 }
 
+
 .icone-perfil {
     height: 30px;
+    cursor: pointer;
 }
 
 .icone-logout {
     height: 30px;
+    cursor: pointer;
 }
 
 .btn-adicionar {

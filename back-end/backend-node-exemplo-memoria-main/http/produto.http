@@ -1,7 +1,7 @@
 ### Obter todos os produtos
 GET  http://localhost:3400/produtos
 Content-Type: application/json
-Authorization: 8f8c5397ab71941d3c657247f3ea684f 
+Authorization: 8acd53b073c7653f4d5e4f154f6c5312 
 
 
 ### Obter o produto por id
@@ -40,4 +40,4 @@ Authorization: 8f8c5397ab71941d3c657247f3ea684f
 ### Deletar produto por id
 DELETE http://localhost:3400/produtos/1
 Content-Type: application/json
-Authorization: 8846b88fa80d2e6f03637d20c01fc33a 
+Authorization: f679e1c2389a1e598a2932ae3418eae6

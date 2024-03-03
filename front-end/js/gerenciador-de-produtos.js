@@ -1,5 +1,6 @@
 let tbody = document.querySelector("table>tbody");
 let btnAdicionar = document.querySelector("#btn-adicionar");
+let btnLogout = document.querySelector("#icone-logout");
 
 let form = {
     id: document.querySelector('#id'),
@@ -14,19 +15,24 @@ let listaProdutos = [];
 let modoEdicao = false;
 let modalProdutos = null;
 
+verificarTokenNoLocalStorage();
+
 btnAdicionar.addEventListener('click', () => {
     modoEdicao = false;
     limparCampos()
     abrirModal();
 })
 
+btnLogout.addEventListener('click', () => {
+    logout();
+})
 
 form.btnSalvar.addEventListener('click', () => {
     var produto = {
         id: form.id.value,
         nome: form.nome.value,
         quantidadeEstoque: form.quantidade.value,
-        valor: form.valor.value
+        valor: formatarValor(form.valor.value)
     };
 
     if (!produto.nome || !produto.quantidadeEstoque || !produto.valor) {
@@ -39,10 +45,46 @@ form.btnSalvar.addEventListener('click', () => {
         cadastrarProdutoNaAPI(produto)
 })
 
-function cadastrarProdutoNaAPI(produto) {
-    fetch('http://localhost:3000/produtos', {
+function logout() {
+    fetch('http://localhost:3400/logout', {
         headers: {
             "Content-Type": "application/json",
+            "Authorization": localStorage.getItem("authToken"),
+        },
+        method: "DELETE",
+    }).then(
+        response => response.json()
+        ).then(
+            response => {
+                localStorage.removeItem("authToken");
+                window.location.href = "/login.html";
+            }
+    ).catch(err => console.error(err));
+}
+
+function verificarTokenNoLocalStorage() {
+    const token = localStorage.getItem('authToken');
+    const pathname = window.location.pathname;
+
+    // Verifica se a página atual é a página de login ou de gerenciamento de produtos
+    if (pathname === '/login.html' || pathname === '/gerenciador-de-produtos.html') {
+        return; // Não redireciona se já estiver na página de login ou gerenciamento de produtos
+    }
+
+    if (token) {
+        // Redireciona para a página de gerenciamento de produtos se o token estiver presente
+        window.location.href = "/gerenciador-de-produtos.html";
+    } else {
+        // Redireciona para a página de login se o token não estiver presente
+        window.location.href = "/login.html";
+    }
+}
+
+function cadastrarProdutoNaAPI(produto) {
+    fetch('http://localhost:3400/produtos', {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": localStorage.getItem("authToken"),
         },
         method: "POST",
         body: JSON.stringify(produto),
@@ -60,9 +102,10 @@ function cadastrarProdutoNaAPI(produto) {
 
 function atualizarProdutoNaAPI(produto) {
 
-    fetch(`http://localhost:3000/produtos/${produto.id}`, {
+    fetch(`http://localhost:3400/produtos/${produto.id}`, {
         headers: {
             "Content-Type": "application/json",
+            "Authorization": localStorage.getItem("authToken"),
         },
         method: "PUT",
         body: JSON.stringify(produto),
@@ -79,9 +122,10 @@ function atualizarProdutoNaAPI(produto) {
 }
 
 function deletarProdutoNaAPI(produto) {
-    fetch(`http://localhost:3000/produtos/${produto.id}`, {
+    fetch(`http://localhost:3400/produtos/${produto.id}`, {
         headers: {
             "Content-Type": "application/json",
+            "Authorization": localStorage.getItem("authToken"),
         },
         method: "DELETE",
     }) //endereço da
@@ -96,7 +140,12 @@ function deletarProdutoNaAPI(produto) {
 }
 
 function obterProdutosDaAPI() {
-    fetch('http://localhost:3000/produtos') //endereço da
+    fetch('http://localhost:3400/produtos', {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": localStorage.getItem("authToken"),
+        },
+    }) //endereço da
         .then(response => response.json())
         .then(response => {
             listaProdutos = response.map(p => new Produto(p));
@@ -195,4 +244,12 @@ function fecharModal() {
     if (modalProdutos) {
         modalProdutos.hide();
     }
+}
+
+function formatarValor(valor) {
+    const valorString = valor.toString();
+
+    const valorConvertido = valorString.replace(/,/g, ".");
+
+    return valorConvertido;
 }
