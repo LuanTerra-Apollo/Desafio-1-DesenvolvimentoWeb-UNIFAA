@@ -47,9 +47,13 @@ Após baixar o projeto, você pode abri-lo utilizando o Visual Studio Code.
 
 > [!IMPORTANT]
 > Você precisa ter o <a href='https://nodejs.org/en'>Node.js<a/> instalado para executar completamente esta aplicação.
-> Este projeto não possui cadastro de usuários, mas é possível fazer a autenticação utilizando um usuário padrão com as seguintes credenciais:
-  -email: admin@admin.com
-  -senha: 123456
+
+## Autenticação
+
+Este projeto não possui cadastro de usuários, mas é possível fazer a autenticação utilizando um usuário padrão com as seguintes credenciais:
+
+- **Email**: admin@admin.com
+- **Senha**: 123456
 
 ## ✔️ Técnicas e tecnologias utilizadas
 
