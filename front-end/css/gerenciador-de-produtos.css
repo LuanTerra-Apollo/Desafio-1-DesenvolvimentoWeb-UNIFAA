@@ -1,82 +1,42 @@
 #container {
-    height: 100vh; 
-    width: 100vw;
     display: flex;
-    /* justify-content: space-between; */
     align-items: center;
     flex-direction: column;
- }
+    height: 100vh;
+    width: 100vw;
+}
 
- #alert-container {
+#alert-container {
     position: fixed;
     top: 10px;
     z-index: 2000;
- }
-
- header {
-    width: 100%;
-    height: 100px;
-    background-color: rgb(139, 90, 49);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: 30px;
 }
 
-p {
-    font-size: 18px;
-    margin: 0px 10px 0px 0px;
-}
-
-img {
-    margin-right: 10px;
-}
-
-h1 {
-    font-size: 48px;
-    font-weight: bold;
-    margin-bottom: 0px;
+#icone-logout {
+    padding-right: 20px;
+    cursor: pointer; 
     color: black;
 }
 
-h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 0px;
+#icone-logout:hover {
+    color: var(--cor-hover-white);
 }
 
-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100px;
-    background-color: rgb(139, 90, 49);
+#box-titulo {
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding-right: 30px;
+    align-items: center; 
+    height: 48px;
 }
 
-thead {
-    border: 2px solid rgb(116, 106, 106);
-    text-align: left;
-    position: sticky;
-    top: 0;
+#box-btn-adicionar {
+    display: flex; 
+    align-items: center; 
+    justify-content: right;
 }
 
-th {
-    border: 2px solid rgb(116, 106, 106);
-    padding: 5px;
-}
-
-tbody {
-    border: 2px solid rgb(116, 106, 106);
-}
-
-td {
-    border: 2px solid rgb(116, 106, 106);
-    padding: 5px;
+#tabela-produtos {
+    width: 80%;
+    text-align: center;
 }
 
 .menu-header {
@@ -85,56 +45,85 @@ td {
     padding: 10px;
 }
 
-
 .icone-perfil {
     height: 30px;
     cursor: pointer;
 }
 
-#icone-logout:hover{
-    color: rgb(207, 201, 201);
-}
-
 .btn-adicionar {
     width: 150px;
     height: 40px;
-    background-color: rgb(139, 90, 49);
+    background-color: var(--cor-botao-primary);
     font-weight: 500;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    border-radius: 5px;
-    box-shadow: 0px 10px 10px rgb(0, 0, 0,0.2);
+    box-shadow: 0px 10px 10px var(--cor-sombra);
 }
 
 .btn-adicionar:hover {
-    background-color: rgb(119, 77, 42);
+    background-color: var(--cor-botao-hover);
 }
 
 .content {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     width: 80%;
     height: 80%;
+    margin-top: 20px;
 }
 
 .box-tabela-produtos {
     width: 100%;
     max-height: 80%;
     overflow-y: auto;
-    border-collapse: collapse; 
-    background-color: rgb(139, 90, 49);  
+    border-collapse: collapse;
+    background-color: var(--cor-fundo);
     display: flex;
     align-items: flex-start;
     padding: 15px;
     justify-content: center;
     border-radius: 5px;
-    box-shadow: 0px 10px 10px rgb(0, 0, 0,0.2);
+    box-shadow: 0px 10px 10px var(--cor-sombra);
+}
+header {
+    width: 100%;
+    height: 100px;
+    background-color: var(--cor-fundo);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 30px;
 }
 
-#tabela-produtos {
-    width: 80%;
+h2 {
+    font-size: 30px;
+}
+
+footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    padding-right: 30px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: var(--cor-fundo);
+}
+
+thead {
     text-align: center;
+    position: sticky;
+    top: 0;
+}
+
+table {
+    box-shadow: 0px 10px 10px var(--cor-sombra);
+}
+
+th, td {
+    padding: 5px;
 }

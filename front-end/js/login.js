@@ -1,20 +1,25 @@
 
+var loginForm = document.getElementById("loginForm");
+let alertContainer = document.querySelector("#alert-container");
+let alertElement = document.createElement('div');
 
-var campoEmail = document.querySelector('#input-email');
-var campoSenha = document.querySelector('#input-senha');
-var btnEntrar = document.querySelector('#btn-entrar');
+loginForm.addEventListener("submit" , function(e) {
+    e.preventDefault();
 
-btnEntrar.addEventListener('click', () => {
+    var campoEmail = document.querySelector('#input-email');
+    var campoSenha = document.querySelector('#input-senha');
+
     let emailDigitado = campoEmail.value.toLowerCase();
     let senhaDigitada = campoSenha.value.toLowerCase();
-    
+
     if(!emailDigitado || !senhaDigitada) {
-        alert('Os campos usuário e senha são obrigatórios');
+        showAlert('Os campos de e-mail e senha são obrigatórios!', 'warning');
         return;
     }
     
     login(emailDigitado, senhaDigitada);
-});
+    
+})
 
 function login(email, senha) {
 
@@ -35,7 +40,7 @@ function login(email, senha) {
     console.log(response);
 
     if(!!response.mensagem) {
-        alert(response.mensagem);
+        showAlert(response.mensagem, 'danger');
         return;
     }
 
@@ -45,4 +50,14 @@ function login(email, senha) {
  .catch((error) => {
     console.log(error);
   })
+}
+
+function showAlert(message, type = 'warning') {
+    alertElement.className = `alert alert-${type}`;
+    alertElement.role = 'alert';
+    alertElement.textContent = message;
+    alertContainer.appendChild(alertElement);
+    setTimeout(() => {
+        alertContainer.removeChild(alertElement);
+    }, 3000);
 }

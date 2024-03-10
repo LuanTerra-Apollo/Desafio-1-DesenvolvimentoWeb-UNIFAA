@@ -1,8 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+:root {
+    --cor-fundo: rgb(139, 90, 49);
+    --cor-texto: black;
+    --cor-botao-primary: rgb(139, 90, 49);
+    --cor-botao-hover: rgb(139, 77, 42);
+    --cor-botao-secondary: rgb(27, 25, 25);
+    --cor-borda: rgb(116, 106, 106);
+    --cor-sombra: rgba(0, 0, 0, 0.2);
+    --cor-hover-white: rgb(207, 201, 201);
+}
+
 * {
     margin: 0px;
     padding: 0;
     box-sizing: border-box;
     font-family: "Roboto", sans-serif;
+}
+
+h1, h2, h3, p, a, label {
+    color: black;
+    margin-bottom: 0;
+}
+
+h1, h2 {
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 48px;
+}
+
+h3 {
+    font-size: 24px;
 }

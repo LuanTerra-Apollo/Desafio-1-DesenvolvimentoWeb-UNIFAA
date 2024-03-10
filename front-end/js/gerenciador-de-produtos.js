@@ -19,8 +19,6 @@ let listaProdutos = [];
 let modoEdicao = false;
 let modalProdutos = null;
 
-verificarTokenNoLocalStorage();
-
 btnAdicionar.addEventListener('click', () => {
     modoEdicao = false;
     limparCampos()
@@ -40,14 +38,7 @@ form.btnSalvar.addEventListener('click', () => {
     };
 
     if (!produto.nome || !produto.quantidadeEstoque || !produto.valor) {
-        alertElement.className = "alert alert-warning";
-        alertElement.role = "alert";
-        alertElement.textContent = "Os campos nome, quantidade e valor são obrigatórios!";
-        alertContainer.appendChild(alertElement);
-        setTimeout(() => {
-            alertContainer.removeChild(alertElement);
-        }, 3000)
-        alert("Os campos nome, quantidade e valor são obrigatórios!");
+        showAlert('Os campos nome, quantidade e valor são obrigatórios!', 'warning');
         return;
     }
 
@@ -55,6 +46,36 @@ form.btnSalvar.addEventListener('click', () => {
         atualizarProdutoNaAPI(produto) :
         cadastrarProdutoNaAPI(produto);
 })
+
+function apiRequest(url, method, body = null) {
+    fetch(url, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": localStorage.getItem("authToken"),
+        },
+        body: body ? JSON.stringify(body) : null,
+    }).then(
+        (response) => {
+            return response.json();
+        }
+    ).then((data) => {
+        return data;
+    }).catch(function (error) {
+        console.log(error);
+        throw error;
+    });
+}
+
+function showAlert(message, type = 'warning') {
+    alertElement.className = `alert alert-${type}`;
+    alertElement.role = 'alert';
+    alertElement.textContent = message;
+    alertContainer.appendChild(alertElement);
+    setTimeout(() => {
+        alertContainer.removeChild(alertElement);
+    }, 3000);
+}
 
 function logout() {
     fetch('http://localhost:3400/logout', {
@@ -65,128 +86,45 @@ function logout() {
         method: "DELETE",
     }).then(
         response => response.json()
-        ).then(
-            response => {
-                localStorage.removeItem("authToken");
-                window.location.href = "/login.html";
-            }
+    ).then(
+        response => {
+            localStorage.removeItem("authToken");
+            window.location.href = "/login.html";
+        }
     ).catch(err => console.error(err));
 }
 
-function verificarTokenNoLocalStorage() {
-    const token = localStorage.getItem('authToken');
-    const pathname = window.location.pathname;
-
-    // Verifica se a página atual é a página de login ou de gerenciamento de produtos
-    if (pathname === '/login.html' || pathname === '/gerenciador-de-produtos.html') {
-        return; // Não redireciona se já estiver na página de login ou gerenciamento de produtos
-    }
-
-    if (token) {
-        // Redireciona para a página de gerenciamento de produtos se o token estiver presente
-        window.location.href = "/gerenciador-de-produtos.html";
-    } else {
-        // Redireciona para a página de login se o token não estiver presente
-        window.location.href = "/login.html";
+async function cadastrarProdutoNaAPI(produto) {
+    try {
+        await apiRequest('http://localhost:3400/produtos', 'POST', produto);
+        showAlert('Produto cadastrado com sucesso', 'success');
+        obterProdutosDaAPI();
+        limparCampos();
+    } catch (e) {
+        showAlert('Não foi possível cadastrar o produto', 'danger');
     }
 }
 
-function cadastrarProdutoNaAPI(produto) {
-    fetch('http://localhost:3400/produtos', {
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": localStorage.getItem("authToken"),
-        },
-        method: "POST",
-        body: JSON.stringify(produto),
-    }) //endereço da
-        .then(response => response.json())
-        .then(response => {
-            obterProdutosDaAPI();
-            limparCampos();
-            alertElement.className = 'alert alert-success';
-            alertElement.role = 'alert';
-            alertElement.textContent = 'Produto cadastrado com sucesso!';
-            alertContainer.appendChild(alertElement);
-            setTimeout(() => {
-                alertContainer.removeChild(alertElement);
-            }, 3000);
-        })
-        .catch(erro => {
-            console.log(erro)
-            alertElement.className = 'alert alert-danger';
-            alertElement.role = 'alert';
-            alertElement.textContent = 'Não foi possível cadastrar o produto!';
-            alertContainer.appendChild(alertElement);
-            setTimeout(() => {
-                alertContainer.removeChild(alertElement);
-            }, 3000);
-        })
+async function atualizarProdutoNaAPI(produto) {
+
+    try {
+        await apiRequest(`http://localhost:3400/produtos/${produto.id}`, 'PUT', produto);
+        showAlert('Produto atualizado com sucesso', 'success');
+        atualizarProdutoNaTela(new Produto(produto), false);
+        fecharModal();
+    } catch (e) {
+        showAlert('Não foi possível atualizar o produto', 'danger');
+    }
 }
 
-function atualizarProdutoNaAPI(produto) {
-
-    fetch(`http://localhost:3400/produtos/${produto.id}`, {
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": localStorage.getItem("authToken"),
-        },
-        method: "PUT",
-        body: JSON.stringify(produto),
-    }) //endereço da
-        .then(response => response.json())
-        .then(response => {
-            atualizarProdutoNaTela(new Produto(response), false)
-            fecharModal();
-            alertElement.className = 'alert alert-success';
-            alertElement.role = 'alert';
-            alertElement.textContent = 'Produto atualizado com sucesso!';
-            alertContainer.appendChild(alertElement);
-            setTimeout(() => {
-                alertContainer.removeChild(alertElement);
-            }, 3000);
-        })
-        .catch(erro => {
-            console.log(erro)
-            alertElement.className = 'alert alert-danger';
-            alertElement.role = 'alert';
-            alertElement.textContent = 'Não foi possível atualizar o produto!';
-            alertContainer.appendChild(alertElement);
-            setTimeout(() => {
-                alertContainer.removeChild(alertElement);
-            }, 3000);
-        })
-}
-
-function deletarProdutoNaAPI(produto) {
-    fetch(`http://localhost:3400/produtos/${produto.id}`, {
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": localStorage.getItem("authToken"),
-        },
-        method: "DELETE",
-    }) //endereço da
-        .then(response => response.json())
-        .then(() => {
-            atualizarProdutoNaTela(produto, true)
-            alertElement.className = 'alert alert-success';
-            alertElement.role = 'alert';
-            alertElement.textContent = 'Produto deletado com sucesso!';
-            alertContainer.appendChild(alertElement);
-            setTimeout(() => {
-                alertContainer.removeChild(alertElement);
-            }, 3000);
-        })
-        .catch(erro => {
-            console.log(erro)
-            alert.className = 'alert alert-danger';
-            alert.role = 'alert';
-            alert.textContent = 'Não foi possível deletar o produto!';
-            alertContainer.appendChild(alert);
-            setTimeout(() => {
-                alertContainer.removeChild(alert);
-            }, 3000);
-        })
+async function deletarProdutoNaAPI(produto) {
+    try {
+        await apiRequest(`http://localhost:3400/produtos/${produto.id}`, 'DELETE');
+        showAlert('Produto deletado com sucesso', 'success');
+        atualizarProdutoNaTela(new Produto(produto), true);
+    } catch (e) {
+        showAlert('Não foi possível deletar o produto!', 'danger');
+    }
 }
 
 function obterProdutosDaAPI() {
@@ -195,7 +133,7 @@ function obterProdutosDaAPI() {
             "Content-Type": "application/json",
             "Authorization": localStorage.getItem("authToken"),
         },
-    }) //endereço da
+    })
         .then(response => response.json())
         .then(response => {
             listaProdutos = response.map(p => new Produto(p));
@@ -284,7 +222,7 @@ function excluirProduto(id) {
     myModal.show();
 
 
-    document.getElementById('confirmModalOk').onclick = function() {
+    document.getElementById('confirmModalOk').onclick = function () {
         deletarProdutoNaAPI(produto);
         myModal.hide(); // Fecha o modal após a confirmação
     };
