@@ -15,11 +15,11 @@
 #icone-logout {
     padding-right: 20px;
     cursor: pointer; 
-    color: black;
+    color: var(--cor-botao-primary);
 }
 
 #icone-logout:hover {
-    color: var(--cor-hover-white);
+    color: var(--cor-botao-hover-primary);
 }
 
 #box-titulo {
@@ -39,6 +39,11 @@
     text-align: center;
 }
 
+#titulo-brand {
+    height: 80px;
+    width: 300px;
+}
+
 .menu-header {
     display: flex;
     align-items: center;
@@ -53,9 +58,9 @@
 .btn-adicionar {
     width: 150px;
     height: 40px;
-    background-color: var(--cor-botao-primary);
+    background-color: var(--cor-botao-secondary);
     font-weight: 500;
-    color: white;
+    color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -63,7 +68,7 @@
 }
 
 .btn-adicionar:hover {
-    background-color: var(--cor-botao-hover);
+    background-color: var(--cor-botao-hover-secondary);
 }
 
 .content {
@@ -99,6 +104,10 @@ header {
 
 h2 {
     font-size: 30px;
+}
+
+h3 {
+    color: var(--cor-texto-ouro);
 }
 
 footer {
