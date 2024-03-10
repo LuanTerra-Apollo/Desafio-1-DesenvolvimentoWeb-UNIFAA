@@ -1,6 +1,10 @@
 let tbody = document.querySelector("table>tbody");
 let btnAdicionar = document.querySelector("#btn-adicionar");
 let btnLogout = document.querySelector("#icone-logout");
+let btnClose = document.querySelector("btn-close");
+let alertContainer = document.querySelector("#alert-container");
+let alertElement = document.createElement('div');
+
 
 let form = {
     id: document.querySelector('#id'),
@@ -36,13 +40,20 @@ form.btnSalvar.addEventListener('click', () => {
     };
 
     if (!produto.nome || !produto.quantidadeEstoque || !produto.valor) {
+        alertElement.className = "alert alert-warning";
+        alertElement.role = "alert";
+        alertElement.textContent = "Os campos nome, quantidade e valor são obrigatórios!";
+        alertContainer.appendChild(alertElement);
+        setTimeout(() => {
+            alertContainer.removeChild(alertElement);
+        }, 3000)
         alert("Os campos nome, quantidade e valor são obrigatórios!");
         return;
     }
 
     modoEdicao ?
         atualizarProdutoNaAPI(produto) :
-        cadastrarProdutoNaAPI(produto)
+        cadastrarProdutoNaAPI(produto);
 })
 
 function logout() {
@@ -93,10 +104,23 @@ function cadastrarProdutoNaAPI(produto) {
         .then(response => {
             obterProdutosDaAPI();
             limparCampos();
+            alertElement.className = 'alert alert-success';
+            alertElement.role = 'alert';
+            alertElement.textContent = 'Produto cadastrado com sucesso!';
+            alertContainer.appendChild(alertElement);
+            setTimeout(() => {
+                alertContainer.removeChild(alertElement);
+            }, 3000);
         })
         .catch(erro => {
             console.log(erro)
-            alert("Deu ruim")
+            alertElement.className = 'alert alert-danger';
+            alertElement.role = 'alert';
+            alertElement.textContent = 'Não foi possível cadastrar o produto!';
+            alertContainer.appendChild(alertElement);
+            setTimeout(() => {
+                alertContainer.removeChild(alertElement);
+            }, 3000);
         })
 }
 
@@ -114,10 +138,23 @@ function atualizarProdutoNaAPI(produto) {
         .then(response => {
             atualizarProdutoNaTela(new Produto(response), false)
             fecharModal();
+            alertElement.className = 'alert alert-success';
+            alertElement.role = 'alert';
+            alertElement.textContent = 'Produto atualizado com sucesso!';
+            alertContainer.appendChild(alertElement);
+            setTimeout(() => {
+                alertContainer.removeChild(alertElement);
+            }, 3000);
         })
         .catch(erro => {
             console.log(erro)
-            alert("Deu ruim")
+            alertElement.className = 'alert alert-danger';
+            alertElement.role = 'alert';
+            alertElement.textContent = 'Não foi possível atualizar o produto!';
+            alertContainer.appendChild(alertElement);
+            setTimeout(() => {
+                alertContainer.removeChild(alertElement);
+            }, 3000);
         })
 }
 
@@ -132,10 +169,23 @@ function deletarProdutoNaAPI(produto) {
         .then(response => response.json())
         .then(() => {
             atualizarProdutoNaTela(produto, true)
+            alertElement.className = 'alert alert-success';
+            alertElement.role = 'alert';
+            alertElement.textContent = 'Produto deletado com sucesso!';
+            alertContainer.appendChild(alertElement);
+            setTimeout(() => {
+                alertContainer.removeChild(alertElement);
+            }, 3000);
         })
         .catch(erro => {
             console.log(erro)
-            alert("Deu ruim")
+            alert.className = 'alert alert-danger';
+            alert.role = 'alert';
+            alert.textContent = 'Não foi possível deletar o produto!';
+            alertContainer.appendChild(alert);
+            setTimeout(() => {
+                alertContainer.removeChild(alert);
+            }, 3000);
         })
 }
 
@@ -185,8 +235,8 @@ function preencherTabela(produtos) {
         tdValor.textContent = aplicarMascaraParaRealComPrefixo(produto.valor);
 
         tdAcoes.innerHTML = `
-        <button onclick="editarProduto(${produto.id})" class="btn btn-link">Editar</button> /
-        <button onclick="excluirProduto(${produto.id})" class="btn btn-link">Excluir</button>`;
+    <i onclick="editarProduto(${produto.id})" class="fas fa-edit" style='cursor: pointer;'></i> /
+    <i onclick="excluirProduto(${produto.id})" class="fas fa-trash" style='cursor: pointer;'></i>`;
 
         tr.appendChild(tdId);
         tr.appendChild(tdNome);
@@ -224,11 +274,20 @@ function editarProduto(id) {
 }
 
 function excluirProduto(id) {
-    let produto = listaProdutos.find(p => p.id == id)
+    let produto = listaProdutos.find(p => p.id == id);
 
-    if(confirm(`Deseja excluir o produto ${produto.id} - ${produto.nome}`)){
+
+    document.querySelector('#confirmModal .modal-body p').textContent = `Deseja excluir o produto ${produto.id} - ${produto.nome}?`;
+
+
+    var myModal = new bootstrap.Modal(document.getElementById('confirmModal'), {});
+    myModal.show();
+
+
+    document.getElementById('confirmModalOk').onclick = function() {
         deletarProdutoNaAPI(produto);
-    }
+        myModal.hide(); // Fecha o modal após a confirmação
+    };
 }
 
 function abrirModal() {
