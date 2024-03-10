@@ -3,6 +3,8 @@ var loginForm = document.getElementById("loginForm");
 let alertContainer = document.querySelector("#alert-container");
 let alertElement = document.createElement('div');
 
+VerificarTokenLocalHost();
+
 loginForm.addEventListener("submit" , function(e) {
     e.preventDefault();
 
@@ -60,4 +62,11 @@ function showAlert(message, type = 'warning') {
     setTimeout(() => {
         alertContainer.removeChild(alertElement);
     }, 3000);
+}
+
+function VerificarTokenLocalHost() {
+    const token = localStorage.getItem('authToken');
+    if(token) {
+        window.open("gerenciador-de-produtos.html", '_self');
+    }
 }

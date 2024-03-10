@@ -5,6 +5,7 @@ let btnClose = document.querySelector("btn-close");
 let alertContainer = document.querySelector("#alert-container");
 let alertElement = document.createElement('div');
 
+VerificarTokenLocalHost();
 
 let form = {
     id: document.querySelector('#id'),
@@ -249,4 +250,10 @@ function formatarValor(valor) {
     const valorConvertido = valorString.replace(/,/g, ".");
 
     return valorConvertido;
+}
+
+function VerificarTokenLocalHost() {
+    if (localStorage.getItem("authToken") == null) {
+        window.location.href = "/login.html";
+    }
 }
