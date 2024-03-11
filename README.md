@@ -1,4 +1,4 @@
-# VIRGO MODAS | UNIFAA-Desafio-1
+# VIRGO MODAS | Desafio 1
 
 <p align="center">
 <img loading="lazy" src="https://github.com/LuanTerra-Apollo/Desafio-1-DesenvolvimentoWeb-UNIFAA/assets/141447628/65e10e83-a163-45f5-847a-9032e4374214"/>
@@ -8,7 +8,7 @@
 <img loading="lazy" src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge"/>
 </p>
 
-<p>Projeto em desenvolvimento para disciplina Front-End Developer - Criando Aplicações para Ambiente Web do curso de Análise e Desenvolvimento de Sistemas. O Virgo Modas | UNIFAA Desafio 1 é um sistema capaz de autenticar um usuário e permitir que ele realize um gerenciamento de estoque completo de produtos, podendo consultar,cadastrar, editar e deletar qualquer produto.</p>
+<p>Projeto em desenvolvimento para disciplina Front-End Developer - Criando Aplicações para Ambiente Web do curso de Análise e Desenvolvimento de Sistemas. O Virgo Modas | Desafio 1 é um sistema capaz de autenticar um usuário e permitir que ele realize um gerenciamento de estoque completo de produtos, podendo consultar,cadastrar, editar e deletar qualquer produto.</p>
 
 # :hammer: Funcionalidades do projeto
 
@@ -62,9 +62,9 @@ Este projeto não possui cadastro de usuários, mas é possível fazer a autenti
 - ``JAVASCRIPT``
 - ``NODE.js``
 
-## Professor e Instrutor
+## Professor
 
-Este Projeto existe graças ao professor <a href='https://www.linkedin.com/in/weberson-rodrigues/'>Weberson Rodrigues de Oliveira<a/> e a instuição de ensino <a href='https://www.unifaa.edu.br'>UNIFAA<a/>.
+Este Projeto existe graças à instrução do professor <a href='https://www.linkedin.com/in/weberson-rodrigues/'>Weberson Rodrigues de Oliveira<a/>.
 
 # Autores
 
