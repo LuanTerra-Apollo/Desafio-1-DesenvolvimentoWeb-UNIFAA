@@ -4,6 +4,7 @@ let btnLogout = document.querySelector("#icone-logout");
 let btnClose = document.querySelector("btn-close");
 let alertContainer = document.querySelector("#alert-container");
 let alertElement = document.createElement('div');
+let tituloModal = document.querySelector('#titulo-modal');
 
 
 let form = {
@@ -206,6 +207,7 @@ function AtualizarModal(produto) {
 
 function editarProduto(id) {
     modoEdicao = true;
+    tituloModal.innerHTML = "Atualizar Produto"
     let produto = listaProdutos.find(p => p.id == id)
     AtualizarModal(produto);
     abrirModal();
