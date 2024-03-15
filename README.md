@@ -61,6 +61,7 @@ Este projeto não possui cadastro de usuários, mas é possível fazer a autenti
 - ``CSS``
 - ``JAVASCRIPT``
 - ``NODE.js``
+- ``BOOTSTRAP``
 
 ## Professor
 
